@@ -9,6 +9,12 @@ import {
 import { CanvasRef } from "../Canvas/types";
 import { ReactSketchCanvasProps, ReactSketchCanvasRef } from "./types";
 
+function distanceBetweenPoints(point1: Point, point2: Point) {
+  const dx = point2.x - point1.x;
+  const dy = point2.y - point1.y;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
 /**
  * ReactSketchCanvas is a wrapper around Canvas component to provide a controlled way to manage the canvas paths.
  * It provides a set of methods to manage the canvas paths, undo, redo, clear and reset the canvas.
@@ -198,6 +204,10 @@ export const ReactSketchCanvas = React.forwardRef<
     if (!isDrawing) return;
 
     const currentStroke = currentPaths.slice(-1)[0];
+    const lastPoint = currentStroke.paths[currentStroke.paths.length - 1];
+    if (distanceBetweenPoints(lastPoint, point) < 4) {
+      return;
+    }
     const updatedStroke = {
       ...currentStroke,
       paths: [...currentStroke.paths, point],

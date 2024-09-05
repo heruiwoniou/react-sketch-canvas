@@ -9,6 +9,9 @@ import starlightTypeDoc, { typeDocSidebarGroup } from "starlight-typedoc";
 export default defineConfig({
   site: 'https://vinoth.info',
   base: '/react-sketch-canvas',
+  server: {
+    host: true
+  },
   integrations: [
     starlight({
       title: "React Sketch Canvas",
